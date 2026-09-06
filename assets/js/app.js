@@ -1,0 +1,54 @@
+(() => {
+  'use strict';
+
+  const fallbackImage = 'assets/images/logo-ila.jpg';
+  const page = document.body.dataset.page;
+  const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, character => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[character]));
+  const formatDate = value => new Date(`${value}T00:00:00`).toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' });
+  const imageMarkup = (source, alt) => `<img src="${escapeHtml(source || fallbackImage)}" alt="${escapeHtml(alt)}" loading="lazy" onerror="this.onerror=null;this.src='${fallbackImage}'">`;
+
+  function renderShell() {
+    document.querySelector('[data-site-header]')?.insertAdjacentHTML('afterbegin', `<a class="skip-link" href="#main-content">រំលងទៅមាតិកា</a><header class="site-header"><div class="container nav-wrap"><a class="brand" href="index.html"><span class="brand-mark">${imageMarkup('assets/images/logo-ila.jpg','ILA logo')}</span><span><strong>ILA Reader Club</strong><small>ក្លឹបអ្នកអាន ILA</small></span></a><button class="nav-toggle" type="button" aria-label="បើកម៉ឺនុយ" aria-expanded="false" aria-controls="primary-navigation">☰</button><nav class="nav" id="primary-navigation" aria-label="ម៉ឺនុយចម្បង"><a href="index.html">ទំព័រដើម</a><a href="about.html">អំពីយើង</a><a href="events.html">ព្រឹត្តិការណ៍</a><a href="news.html">ព័ត៌មាន</a><a href="gallery.html">វិចិត្រសាល</a><a href="members.html">សមាជិក</a><a class="nav-cta" href="join.html">ចូលរួមជាមួយយើង</a></nav></div></header>`);
+    document.querySelector('[data-site-footer]')?.insertAdjacentHTML('afterbegin', `<footer class="footer"><div class="container footer-grid"><div><div class="brand footer-brand"><span class="brand-mark">${imageMarkup('assets/images/logo-ila.jpg','ILA logo')}</span><span><strong>ILA Reader Club</strong><small>ក្លឹបអ្នកអាន ILA</small></span></div><p>បង្កើតវប្បធម៌អាន បង្កើតអនាគត</p></div><div><h4>តំណភ្ជាប់</h4><a href="about.html">អំពីយើង</a><a href="events.html">ព្រឹត្តិការណ៍</a><a href="join.html">ចូលរួម</a></div><div><h4>ចូលរួមជាមួយយើង</h4><p>សម្រាប់ព័ត៌មានអំពីការចូលរួម សូមបំពេញទម្រង់នៅលើទំព័រចូលរួម។</p><a href="join.html">ទៅកាន់ទំព័រចូលរួម →</a></div></div><div class="copyright">© 2026 ILA Reader Club. All rights reserved.</div></footer>`);
+  }
+
+  function setupNavigation() {
+    const toggle = document.querySelector('.nav-toggle'); const nav = document.querySelector('.nav'); if (!toggle || !nav) return;
+    const current = location.pathname.split('/').pop() || 'index.html';
+    const close = () => { nav.classList.remove('open'); toggle.setAttribute('aria-expanded','false'); };
+    nav.querySelectorAll('a').forEach(link => { if (link.getAttribute('href') === current) link.setAttribute('aria-current','page'); link.addEventListener('click', close); });
+    toggle.addEventListener('click', event => { event.stopPropagation(); const isOpen = nav.classList.toggle('open'); toggle.setAttribute('aria-expanded', String(isOpen)); });
+    document.addEventListener('click', event => { if (!nav.contains(event.target) && event.target !== toggle) close(); });
+    document.addEventListener('keydown', event => { if (event.key === 'Escape') close(); });
+  }
+
+  async function loadData() { const response = await fetch('assets/data/site-data.json', { cache:'no-store' }); if (!response.ok) throw new Error(`Data request failed: ${response.status}`); return response.json(); }
+
+  function renderEvents({ events }) { const root = document.querySelector('[data-events], .event-grid'); if (!root || page !== 'events') return; root.innerHTML = events.map(event => { const date = new Date(`${event.date}T00:00:00`); return `<article class="card event-card"><div class="event-date-badge"><strong>${date.toLocaleDateString('en-GB',{day:'2-digit'})}</strong><span>${date.toLocaleDateString('en-GB',{month:'short'})}</span></div><div class="event-card-body"><span class="event-type">ILA COMMUNITY EVENT</span><h3>${escapeHtml(event.title)}</h3><p class="event-location">📍 ${escapeHtml(event.location)}</p><p class="muted">${escapeHtml(event.description)}</p><div class="event-card-footer"><time datetime="${escapeHtml(event.date)}">${formatDate(event.date)}</time><a href="join.html">ចូលរួម →</a></div></div></article>`; }).join(''); }
+  function renderNews({ news }) { const root = document.querySelector('[data-news]'); if (!root) return; root.innerHTML = news.length ? news.map(item => `<article class="card news-card"><div class="thumb">${imageMarkup(item.image,item.title)}</div><span class="news-category">${escapeHtml(item.category || 'ILA STORIES')}</span><div class="date">${formatDate(item.date)}</div><h3>${escapeHtml(item.title)}</h3><p>${escapeHtml(item.content)}</p><div class="news-card-footer"><time datetime="${escapeHtml(item.date)}">${formatDate(item.date)}</time><a href="about.html">អានបន្ថែម →</a></div></article>`).join('') : '<div class="empty-state"><h3>មិនទាន់មានព័ត៌មាន</h3><p class="muted">សូមត្រឡប់មកមើលម្ដងទៀត។</p></div>'; }
+
+  function setupGallery(items) {
+    document.querySelectorAll('[data-gallery-filter]').forEach(button => button.addEventListener('click', () => { document.querySelectorAll('[data-gallery-filter]').forEach(item => item.classList.toggle('is-active', item === button)); document.querySelectorAll('[data-gallery-item]').forEach(item => { item.hidden = button.dataset.galleryFilter !== 'all' && item.dataset.category !== button.dataset.galleryFilter; }); }));
+    document.querySelectorAll('[data-gallery-open]').forEach(button => button.addEventListener('click', () => { const item = items[Number(button.dataset.galleryOpen)]; const modal = document.createElement('dialog'); modal.className = 'gallery-dialog'; modal.innerHTML = `<button class="gallery-close" type="button" aria-label="បិទ">×</button>${imageMarkup(item.image,item.title)}<div><span class="gallery-category">${item.category === 'reading' ? 'ការអាន' : 'សហគមន៍'}</span><h2>${escapeHtml(item.title)}</h2><p>${escapeHtml(item.description)}</p></div>`; document.body.append(modal); modal.showModal(); const close = () => { modal.close(); modal.remove(); }; modal.querySelector('.gallery-close').addEventListener('click', close); modal.addEventListener('click', event => { if (event.target === modal) close(); }); }));
+  }
+
+  function renderGallery({ gallery }) { const root = document.querySelector('[data-gallery]'); if (!root) return; root.innerHTML = gallery.map((item,index) => `<article class="gallery-item gallery-item-${index+1}" data-gallery-item data-category="${escapeHtml(item.category || 'community')}"><button class="gallery-open" type="button" data-gallery-open="${index}" aria-label="បើករូបភាព ${escapeHtml(item.title)}">${imageMarkup(item.image,item.title)}<span class="gallery-zoom" aria-hidden="true">＋</span></button><div class="gallery-caption"><span class="gallery-category">${item.category === 'reading' ? 'ការអាន' : 'សហគមន៍'}</span><h3>${escapeHtml(item.title)}</h3><p>${escapeHtml(item.description)}</p></div></article>`).join(''); setupGallery(gallery); }
+  function renderMembers({ members }) { const root = document.querySelector('[data-members]'); if (!root) return; root.innerHTML = members.map(member => `<article class="member-card"><div class="member-photo">${imageMarkup(member.image,member.khmer)}</div><div class="member-content"><a class="member-view" href="member.html?id=${encodeURIComponent(member.id)}">មើលប្រវត្តិពេញ →</a><h2>${escapeHtml(member.khmer)}</h2><p class="member-english">${escapeHtml(member.english)}</p><p class="member-role">${escapeHtml(member.role)}</p>${member.department ? `<p class="muted">${escapeHtml(member.department)}</p>` : ''}${member.bio ? `<p>${escapeHtml(member.bio)}</p>` : ''}</div></article>`).join(''); }
+  function renderMember({ members }) { const root = document.querySelector('[data-member]'); if (!root) return; const wanted = new URLSearchParams(location.search).get('id'); const member = members.find(item => String(item.id) === wanted); if (!member) { root.innerHTML = '<div class="empty-state"><h1>រកមិនឃើញសមាជិក</h1><a class="btn" href="members.html">ត្រឡប់ទៅសមាជិក</a></div>'; return; } root.innerHTML = `<section class="member-hero"><div class="member-hero-photo">${imageMarkup(member.image,member.khmer)}</div><div class="member-hero-copy"><span class="eyebrow">${escapeHtml(member.role)}</span><h1>${escapeHtml(member.khmer)}</h1><p class="member-english">${escapeHtml(member.english)}</p><h2>សមាជិកសហគមន៍អ្នកអាន និងអ្នកចែករំលែកចំណេះដឹង</h2><p>${escapeHtml(member.bio || 'សមាជិក ILA ដែលចូលរួមក្នុងសកម្មភាពអាន ការរៀន និងការចែករំលែកចំណេះដឹងជាមួយសហគមន៍។')}</p><div class="member-actions"><a class="btn" href="join.html">ទាក់ទង ILA</a><a class="btn btn-secondary" href="members.html">សមាជិកទាំងអស់</a></div></div></section>`; }
+
+  function setupJoinForm() {
+    const form = document.querySelector('.join-form'); if (!form) return;
+    form.addEventListener('submit', event => {
+      event.preventDefault(); const notice = form.closest('.join-layout')?.querySelector('.notice');
+      form.querySelectorAll('.field').forEach(field => field.classList.remove('has-error')); form.querySelectorAll('.field-error').forEach(error => { error.textContent = ''; });
+      const application = Object.fromEntries(new FormData(form).entries()); const errors = {};
+      if (!application.name?.trim()) errors.name = 'សូមបញ្ចូលឈ្មោះពេញ។'; if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(application.email || '')) errors.email = 'សូមបញ្ចូល Email ដែលត្រឹមត្រូវ។';
+      Object.entries(errors).forEach(([field,message]) => { const input = form.elements[field]; input.closest('.field').classList.add('has-error'); input.setAttribute('aria-invalid','true'); form.querySelector(`[data-error-for="${field}"]`).textContent = message; });
+      if (Object.keys(errors).length) { if (notice) { notice.className = 'notice error'; notice.textContent = 'សូមពិនិត្យព័ត៌មានដែលមានសញ្ញាព្រមាន ហើយសាកល្បងម្ដងទៀត។'; } return; }
+      application.createdAt = new Date().toISOString(); const saved = JSON.parse(localStorage.getItem('ilaJoinApplications') || '[]'); localStorage.setItem('ilaJoinApplications', JSON.stringify([...saved,application])); if (notice) { notice.className = 'notice'; notice.textContent = 'បានរក្សាទុកព័ត៌មានរបស់អ្នកក្នុងកម្មវិធីរុករក។ សូមអរគុណសម្រាប់ការចូលរួម!'; } form.reset();
+    });
+  }
+
+  function showDataError() { document.querySelectorAll('[data-events],[data-news],[data-gallery],[data-members],[data-member]').forEach(root => { if (!root.innerHTML.trim()) root.innerHTML = '<div class="empty-state"><h3>មិនអាចផ្ទុកទិន្នន័យបានទេ</h3><p class="muted">សូមបើកគេហទំព័រតាមម៉ាស៊ីនមេ ឬព្យាយាមម្ដងទៀត។</p></div>'; }); }
+  renderShell(); setupNavigation(); setupJoinForm(); loadData().then(data => { renderEvents(data); renderNews(data); renderGallery(data); renderMembers(data); renderMember(data); }).catch(error => { showDataError(); console.error('ILA data loading failed:', error); });
+})();

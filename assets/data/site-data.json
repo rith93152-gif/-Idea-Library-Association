@@ -1,0 +1,36 @@
+{
+  "organization": {
+    "khmerName": "សមាគមបណ្ណាល័យគំនិត",
+    "englishName": "IDEA LIBRARY ASSOCIATION",
+    "mission": "លើកកម្ពស់វប្បធម៌អាន និងបង្កើតឱកាសសម្រាប់ការរៀន ស្រាវជ្រាវ និងចែករំលែកចំណេះដឹង។",
+    "vision": "សហគមន៍មួយដែលមនុស្សគ្រប់រូបមានឱកាសចូលដំណើរការសៀវភៅ និងអភិវឌ្ឍខ្លួនតាមរយៈការអាន។",
+    "history": "សមាគមបណ្ណាល័យគំនិត ត្រូវបានបង្កើតឡើងដើម្បីលើកកម្ពស់ការអាន ការអប់រំ ការស្រាវជ្រាវ និងការចែករំលែកសៀវភៅ។",
+    "objectives": "ពង្រីកការចូលដំណើរការសៀវភៅ គាំទ្រការរៀនពេញមួយជីវិត និងភ្ជាប់អ្នកអាន អ្នកស្ម័គ្រចិត្ត និងសហគមន៍។",
+    "values": "ការចែករំលែក • ការស្ម័គ្រចិត្ត • ការគោរព • ការរៀនជាបន្តបន្ទាប់ • ការទទួលខុសត្រូវសង្គម"
+  },
+  "members": [
+    {"id": 1, "image": "assets/images/founder-ila.jpg", "khmer": "ព្រះតេជគុណ សីលរក្ខិតោ រឹម ឈាវ", "english": "Seil Rakkhito Reom Namchheav", "role": "ស្ថាបនិក", "department": "ILA Reader Club", "bio": "ស្ថាបនិក Idea Library Association ដែលលើកកម្ពស់វប្បធម៌អាន ការរៀនសូត្រ និងការចែករំលែកចំណេះដឹងក្នុងសហគមន៍។", "expertise": "ការអាន និងការអប់រំ"},
+    {"id": 2, "image": "assets/images/members/than-chantheary.jpg", "khmer": "សមាជិក ILA - Than ChanTheary", "english": "Than ChanTheary", "role": "សមាជិក"},
+    {"id": 3, "image": "assets/images/members/sem-kovid.jpg", "khmer": "សមាជិក ILA - SÈM KOVID", "english": "SÈM KOVID", "role": "សមាជិក"},
+    {"id": 4, "image": "assets/images/members/sum-sopheara.jpg", "khmer": "សមាជិក ILA - Sum Sopheara", "english": "Sum Sopheara", "role": "សមាជិក"},
+    {"id": 5, "image": "assets/images/members/sreynith.jpg", "khmer": "សមាជិក ILA - SREYNITH", "english": "SREYNITH", "role": "សមាជិក"},
+    {"id": 6, "image": "assets/images/members/sokmun-neva.jpg", "khmer": "សមាជិក ILA - SOKMUN NEVA", "english": "SOKMUN NEVA", "role": "សមាជិក"},
+    {"id": 7, "image": "assets/images/members/seyha-chheng.jpg", "khmer": "សមាជិក ILA - SEYHA CHHENG", "english": "SEYHA CHHENG", "role": "សមាជិក"},
+    {"id": 8, "image": "assets/images/members/ros-sothearith.jpg", "khmer": "សមាជិក ILA - Ros Sothearith", "english": "Ros Sothearith", "role": "សមាជិក"},
+    {"id": 9, "image": "assets/images/members/phan-bora.jpg", "khmer": "សមាជិក ILA - Phan Bora", "english": "Phan Bora", "role": "សមាជិក"},
+    {"id": 10, "image": "assets/images/members/deth-phanna.jpg", "khmer": "សមាជិក ILA - Deth Phanna", "english": "Deth Phanna", "role": "សមាជិក"},
+    {"id": 11, "image": "assets/images/members/born-rithsak.jpg", "khmer": "សមាជិក ILA - BORN RITHSAK", "english": "BORN RITHSAK", "role": "សមាជិក"}
+  ],
+  "events": [
+    {"date": "2026-10-10", "title": "សួនសៀវភៅ — Book Garden", "location": "រាជធានីភ្នំពេញ", "description": "សកម្មភាពអានសៀវភៅ និងចែករំលែកចំណេះដឹង។"},
+    {"date": "2026-11-15", "title": "កម្មវិធីបរិច្ចាគសៀវភៅ", "location": "កម្ពុជា", "description": "ប្រមូល និងចែកសៀវភៅដល់សហគមន៍។"}
+  ],
+  "news": [
+    {"date": "2026-01-01", "category": "សហគមន៍", "image": "assets/images/founder-ila.jpg", "title": "ស្វាគមន៍មកកាន់ ILA Reader Club", "content": "នេះជាគេហទំព័រសម្រាប់ផ្សព្វផ្សាយសកម្មភាពអំណាន និងសហគមន៍របស់ ILA Reader Club។"},
+    {"date": "2026-01-01", "category": "ការចូលរួម", "image": "assets/images/logo-ila.jpg", "title": "ចូលរួមបង្កើតសហគមន៍អ្នកអាន", "content": "អ្នកអាចចូលរួមជាអ្នកអាន អ្នកស្ម័គ្រចិត្ត ឬអ្នកបរិច្ចាគសៀវភៅ។"}
+  ],
+  "gallery": [
+    {"title": "សកម្មភាពអំណាន", "image": "assets/images/founder-ila.jpg", "category": "reading", "description": "សហគមន៍ ILA លើកកម្ពស់ការអាន និងការរៀនសូត្រ។"},
+    {"title": "សកម្មភាពសហគមន៍", "image": "assets/images/logo-ila.jpg", "category": "community", "description": "ចូលរួមជាមួយ ILA ដើម្បីចែករំលែកចំណេះដឹង។"}
+  ]
+}
